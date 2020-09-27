@@ -89,3 +89,59 @@ Legal context of method reference are same as of lambda expression
     <code>return method ref</code> - return type of current method
 4. Argument of cast
     <code>(T) method ref</code>
+    
+## Pre-Java 8 functional Interfaces
+1. Runnable and Callable - Multi threading
+2. ActionListener - GUIs
+3. Comparable & Comparator - Sorting
+
+Because many of interfaces with a single abstract method.
+
+## New Functional Interfaces
+40+ FIs in java.util.function
+
+There are 6 types of FI
+1. Supplier         nothing -> T         get()
+2. Consumer         T-> nothing          accept()
+3. UnaryOperator    T-> T                apply() e.g replaceAll in List
+4. BinaryOperator   T,T -> T             apply() e.g reduce
+5. Function         S -> T               apply() e.g map
+6. Predicate        T -> boolean         test() e.g filter
+
+## Functional Interfaces for Primitive Types
+whose arguments and return types are primitive types.
+BinaryOperator - IntBinaryOperator sum = (a,b) - > a+b;
+ XSupplier , XConsumer , XUnaryOperator, XBinaryOpertor, XPredicate
+ 
+ Where X can be Int, Long, Double
+ 
+ Variant of Functions
+ ToXFunction<T>  Where X can be Int, Long, Double
+ XToYFunction  Where X & Y can be Int, Long, Double but X !=Y
+ 
+ BooleanSupplier 
+ eg, final Random rand = new Random();
+ BooleansSupplier randomBS= rand::nextBoolean;
+ 
+## Composing Functions
+1. Predicate - 3 boolean connectives and, or, not.
+<code>Predicate<T> a= ..., b=...;
+Predicate<T> c= a.and(b),
+             d= a.or(b),
+             e= a.negate();
+</code>
+
+2. Consumer -  apply two consumers to the same argument sequential composition.
+<code>Consumer<T> a= ..., b=...;
+Consumer<T> c= a.andThen(b);</code>
+e.g Writing the same string to screen adn to a file
+<code>PrintWriter writer = new PrintWriter("filename.txt");
+Consumer<String> logger = writer::println;
+Consumer<String> screener = System.out::println;
+Consumer<String> both = screener.andThen(logger);
+both.accept("Program Started")</code>
+
+- f.andThen(g) - reads left-to-right
+- g.compose(f) - reads right-to-left
+both computes same thing.
+
