@@ -7,7 +7,7 @@
 Any interface with a single abstract method is FI.
 ### Pure Functional interfaces
 An FI intended to be implemented by stateless class is called pure FI.
-#####@FunctionalInterface - is intended for pure FIs
+#####FunctionalInterface - is intended for pure FIs
 In Java9 - 40 FIs
 #### Examples:
 1. Scalable - not pure
@@ -145,3 +145,57 @@ both.accept("Program Started")</code>
 - g.compose(f) - reads right-to-left
 both computes same thing.
 
+# Sequential streams,collections and iterators
+Stream is a sequence of objects supporting internal iterations.
+<code>List<String> list = Arrays.asList("Adam", "Bob", "Charlie");
+      		for (String s : list)
+      			System.out.println(s);</code>
+
+ <code>Iterator<String> iterator = Arrays.asList("Adam", "Bob", "Charlie").listIterator();
+      		while (iterator.hasNext())
+      			System.out.println(iterator.next());</code>
+      
+ <code>Stream<String> stream = Arrays.asList("Adam", "Bob", "Charlie").stream();
+ stream.forEach(System.out::println);</code>
+ 
+##Operations
+1. Build ops - create a stream from a data source
+2. Intermediate ops - convert one stream to another
+3. Terminal ops - convert stream into something else (or nothing)
+
+##Types of Stream
+1. Can be ordered and unordered streams and operations can be performed accordingly.
+2. can be sequential and parallel streams
+
+## Creating a stream
+1. A static sequence of objects.
+    e.g Stream.of("1","2"...)
+2. A Collections
+    eg. Arrays.stream()
+    Streams from arrays ordered and sequential
+    Streams from lists are ordered.
+    Streams from sets are unordered.
+3. A computations (on demand)
+    1. Each one separately (via Supplier)
+    e.g. Random rand = new Random();
+     Stream<Integer> randoms = Stream.generate(rand::nextInt);
+    2. each one from the previous one (via unaryOperator)
+    e.g. Stream<String> as = Stream.iterate ("a",s->s+"a");
+    
+ - Computed streams are potentially infinite.
+ 
+ ## Lazy Evaluation vs Eager Evaluation
+ Build and intermediates are processed only when terminal ops is executed.
+ 
+ ##Stream operations
+ 
+### Filtering Operations
+Based on 
+1. Content -  filter, takeWhile, dropWhile
+2. Amount - limit
+3. Uniqueness - distinct
+
+takeWhile - take elements as long as a Predicate is true.
+dropWhile - discards elements as long as a Predicate is true.
+
+On Unordered Streams- No Guarantee as to what elements will be taken/dropped.
